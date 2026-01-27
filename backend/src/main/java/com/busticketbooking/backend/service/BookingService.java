@@ -1,0 +1,68 @@
+package com.busticketbooking.backend.service;
+
+import com.busticketbooking.backend.model.BookingRequest;
+import com.busticketbooking.backend.model.Bus;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+@Service
+public class BookingService {
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private BusService busService;
+
+    public String createBooking(BookingRequest request) {
+        String bookingId = "NB" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        
+        try {
+            Firestore db = FirestoreClient.getFirestore();
+            if (db != null) {
+                Map<String, Object> booking = new HashMap<>();
+                booking.put("id", bookingId);
+                booking.put("userId", request.getUserId());
+                booking.put("email", request.getEmail());
+                booking.put("busId", request.getBusId());
+                booking.put("selectedSeats", request.getSelectedSeats());
+                booking.put("totalAmount", request.getTotalAmount());
+                booking.put("date", request.getDate());
+                booking.put("status", "CONFIRMED");
+                
+                db.collection("bookings").document(bookingId).set(booking).get();
+                System.out.println("Booking created in Firestore: " + bookingId);
+            } else {
+                System.out.println("Firestore not initialized. Skipping DB write.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error saving to Firestore: " + e.getMessage());
+            // In case of error, we still return the ID for demo purposes if it's just a config issue
+        }
+        
+        // Send Email Notification
+        sendConfirmationNotification(request, bookingId);
+        
+        return bookingId;
+    }
+
+    private void sendConfirmationNotification(BookingRequest request, String bookingId) {
+        Bus bus = busService.getBusById(request.getBusId());
+        String busName = bus != null ? bus.getName() : "Unknown Bus";
+        String seats = request.getSelectedSeats().toString();
+        
+        emailService.sendBookingConfirmation(
+            request.getEmail(),
+            bookingId,
+            busName,
+            seats,
+            request.getTotalAmount()
+        );
+    }
+}

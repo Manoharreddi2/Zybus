@@ -1,0 +1,89 @@
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+
+const MOCK_BUSES = [
+    { id: 1, name: "NeoTravels Premium", type: "AC Sleeper (2+1)", departure: "22:00", arrival: "06:00", duration: "8h 00m", price: 1200, seatsAvailable: 12, rating: 4.5 },
+    { id: 2, name: "CityExpress", type: "Non-AC Seater (2+2)", departure: "20:30", arrival: "05:00", duration: "8h 30m", price: 800, seatsAvailable: 24, rating: 4.0 },
+    { id: 3, name: "NightRider", type: "AC Volvo", departure: "23:00", arrival: "06:30", duration: "7h 30m", price: 1500, seatsAvailable: 5, rating: 4.8 },
+    { id: 4, name: "InterCity Gold", type: "AC Sleeper", departure: "21:15", arrival: "05:45", duration: "8h 30m", price: 1100, seatsAvailable: 15, rating: 4.2 },
+];
+
+const BusList = () => {
+    const [searchParams] = useSearchParams();
+    const from = searchParams.get('from');
+    const to = searchParams.get('to');
+    const date = searchParams.get('date');
+    const [buses, setBuses] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Fetch from Backend
+        fetch(`http://localhost:8080/api/buses?from=${from}&to=${to}&date=${date}`)
+            .then(res => {
+                if (!res.ok) throw new Error("Backend not reachable");
+                return res.json();
+            })
+            .then(data => setBuses(data))
+            .catch(err => {
+                console.warn("Failed to fetch buses, using mock data", err);
+                setBuses(MOCK_BUSES);
+            });
+    }, [from, to, date]);
+
+    return (
+        <div className="container" style={{ marginTop: '2rem' }}>
+            <div style={{ marginBottom: '2rem', color: 'var(--text-secondary)' }}>
+                <h2>Available Buses</h2>
+                <p>{from} to {to} on {date}</p>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {buses.map(bus => (
+                    <div key={bus.id} style={{
+                        backgroundColor: 'var(--bg-secondary)',
+                        padding: '1.5rem',
+                        borderRadius: '12px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: '1rem',
+                        border: '1px solid #222',
+                        transition: 'transform 0.2s',
+                        cursor: 'pointer'
+                    }}
+                        onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent-color)'}
+                        onMouseLeave={(e) => e.currentTarget.style.borderColor = '#222'}
+                    >
+                        <div style={{ flex: 2 }}>
+                            <h3 style={{ margin: 0, color: 'white' }}>{bus.name}</h3>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: '0.5rem 0' }}>{bus.type}</p>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <span style={{ backgroundColor: '#00b894', color: 'black', padding: '2px 6px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>★ {bus.rating}</span>
+                                <span style={{ color: '#888', fontSize: '0.8rem' }}>140 ratings</span>
+                            </div>
+                        </div>
+
+                        <div style={{ flex: 1, textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{bus.departure}</div>
+                            <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>{bus.duration}</div>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{bus.arrival}</div>
+                        </div>
+
+                        <div style={{ flex: 1, textAlign: 'right' }}>
+                            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent-color)' }}>₹{bus.price}</div>
+                            <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>{bus.seatsAvailable} Seats Left</div>
+                            <button
+                                onClick={() => navigate('/seats', { state: { bus } })}
+                                style={{ backgroundColor: 'var(--accent-color)', color: 'black', border: 'none', fontWeight: 'bold' }}>
+                                View Seats
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default BusList;
