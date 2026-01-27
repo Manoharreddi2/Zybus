@@ -1,7 +1,7 @@
 // Web3Forms Email Service - No backend required!
 // Get your FREE access key at: https://web3forms.com/
 
-const WEB3FORMS_ACCESS_KEY = 'YOUR_ACCESS_KEY_HERE'; // Get your free key at web3forms.com
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '';
 
 export const sendBookingEmail = async (email, bookingId, busName, seats, totalAmount, route) => {
     // Check if configured
@@ -11,8 +11,10 @@ export const sendBookingEmail = async (email, bookingId, busName, seats, totalAm
         return { success: false, message: 'Email not configured' };
     }
 
+
     try {
         const response = await fetch('https://api.web3forms.com/submit', {
+            4
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
