@@ -14,7 +14,6 @@ export const sendBookingEmail = async (email, bookingId, busName, seats, totalAm
 
     try {
         const response = await fetch('https://api.web3forms.com/submit', {
-            4
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
