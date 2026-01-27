@@ -1,29 +1,41 @@
-// Web3Forms Email Service - No backend required!
-// Get your FREE access key at: https://web3forms.com/
+// EmailJS Email Service - Sends emails to USER's email address
+// Setup: https://www.emailjs.com/
+// 1. Create account at emailjs.com
+// 2. Add email service (Gmail, Outlook, etc.)
+// 3. Create email template with variables: {{to_email}}, {{booking_id}}, {{bus_name}}, {{seats}}, {{total}}, {{route}}
+// 4. Get your Service ID, Template ID, and Public Key
 
-const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '';
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || '';
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
 
 export const sendBookingEmail = async (email, bookingId, busName, seats, totalAmount, route) => {
     // Check if configured
-    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === 'YOUR_ACCESS_KEY_HERE') {
-        console.log('📧 Web3Forms not configured. Email would be sent to:', email);
-        console.log('To enable: Get free key at https://web3forms.com/');
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+        console.log('📧 EmailJS not configured. Email would be sent to:', email);
+        console.log('To enable: Setup EmailJS at https://www.emailjs.com/');
+        console.log('Required env vars: VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY');
         return { success: false, message: 'Email not configured' };
     }
 
-
     try {
-        const response = await fetch('https://api.web3forms.com/submit', {
+        const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                access_key: WEB3FORMS_ACCESS_KEY,
-                subject: `🎫 Zybus Booking Confirmed - ${bookingId}`,
-                from_name: 'Zybus Tickets',
-                to: email,
-                message: `
+                service_id: EMAILJS_SERVICE_ID,
+                template_id: EMAILJS_TEMPLATE_ID,
+                user_id: EMAILJS_PUBLIC_KEY,
+                template_params: {
+                    to_email: email,
+                    booking_id: bookingId,
+                    bus_name: busName,
+                    seats: seats,
+                    total: `₹${totalAmount}`,
+                    route: route || 'N/A',
+                    message: `
 🎫 ZYBUS BOOKING CONFIRMATION
 
 Dear Customer,
@@ -47,18 +59,18 @@ Have a safe and comfortable journey.
 
 Best regards,
 Zybus Team
-                `.trim()
+                    `.trim()
+                }
             })
         });
 
-        const data = await response.json();
-
-        if (data.success) {
+        if (response.ok || response.status === 200) {
             console.log('✅ Confirmation email sent to:', email);
             return { success: true, message: 'Email sent successfully' };
         } else {
-            console.error('❌ Email failed:', data);
-            return { success: false, message: data.message || 'Email failed' };
+            const errorText = await response.text();
+            console.error('❌ Email failed:', errorText);
+            return { success: false, message: errorText || 'Email failed' };
         }
     } catch (error) {
         console.error('❌ Email error:', error);
