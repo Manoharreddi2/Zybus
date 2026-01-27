@@ -10,7 +10,7 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
 
 // Owner email - receives copy of all booking confirmations
-const OWNER_EMAIL = 'purukutapuajayreddy@gmail.com';
+const OWNER_EMAIL = 'manoharreddy2210@gmail.com';
 
 const sendSingleEmail = async (toEmail, userEmail, bookingId, busName, seats, totalAmount, route, isOwnerCopy = false) => {
     try {
