@@ -2,13 +2,14 @@
   --bg-primary: #000000;
   --bg-secondary: #111111;
   --bg-tertiary: #1a1a1a;
-  
+
   --text-primary: #ffffff;
   --text-secondary: #cccccc;
-  
-  --accent-color: #00f3ff; /* Neon Cyan */
+
+  --accent-color: #00f3ff;
+  /* Neon Cyan */
   --accent-hove: #00c0cc;
-  
+
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -21,6 +22,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -38,8 +43,13 @@ body {
   min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: var(--text-primary);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
 }
 
 button {
@@ -83,16 +93,210 @@ button:focus-visible {
   background: #333;
 }
 
-input, select {
-    background-color: var(--bg-tertiary);
-    color: var(--text-primary);
-    border: 1px solid #333;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 1rem;
+input,
+select {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid #333;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
 }
 
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--accent-color);
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+/* ================================
+   MOBILE RESPONSIVE STYLES
+   ================================ */
+
+/* Container responsive */
+.container {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Navbar responsive class */
+.navbar-mobile {
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem !important;
+}
+
+.navbar-mobile .nav-links {
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+/* Search form responsive */
+.search-form-mobile {
+  flex-direction: column !important;
+}
+
+.search-form-mobile>div,
+.search-form-mobile>button {
+  width: 100% !important;
+  flex: none !important;
+}
+
+/* Bus card responsive */
+.bus-card-mobile {
+  flex-direction: column !important;
+  text-align: center !important;
+}
+
+.bus-card-mobile>div {
+  flex: none !important;
+  text-align: center !important;
+  width: 100%;
+}
+
+/* Seat grid responsive */
+.seat-grid-mobile {
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 0.5rem !important;
+  padding: 1rem !important;
+  max-width: 100% !important;
+}
+
+.seat-mobile {
+  width: 35px !important;
+  height: 35px !important;
+  font-size: 0.8rem !important;
+}
+
+/* Legend responsive */
+.legend-mobile {
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+}
+
+/* Fixed bottom bar responsive */
+.bottom-bar-mobile {
+  flex-direction: column !important;
+  gap: 1rem !important;
+  padding: 1rem !important;
+}
+
+.bottom-bar-mobile button {
+  width: 100% !important;
+}
+
+/* Ticket responsive */
+.ticket-mobile {
+  padding: 1.5rem !important;
+  margin: 0 0.5rem !important;
+}
+
+/* Auth form responsive */
+.auth-form-mobile {
+  margin: 1rem !important;
+  padding: 1.5rem !important;
+  width: calc(100% - 2rem) !important;
+  max-width: none !important;
+}
+
+/* Trip details responsive */
+.trip-details-mobile {
+  flex-direction: column !important;
+  gap: 1rem !important;
+  text-align: center !important;
+}
+
+/* Button group responsive */
+.btn-group-mobile {
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+}
+
+.btn-group-mobile button {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+/* ================================
+   MEDIA QUERIES - Tablets & Small Laptops
+   ================================ */
+@media screen and (max-width: 900px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+}
+
+/* ================================
+   MEDIA QUERIES - Mobile Phones
+   ================================ */
+@media screen and (max-width: 768px) {
+  body {
+    place-items: flex-start;
+  }
+
+  .container {
+    padding: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  button {
+    padding: 0.7em 1em;
+    font-size: 0.95rem;
+  }
+
+  input,
+  select {
+    padding: 12px;
+    font-size: 16px;
+    /* Prevents zoom on iOS */
+  }
+}
+
+/* ================================
+   MEDIA QUERIES - Small Phones
+   ================================ */
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+
+  h2 {
+    font-size: 1.15rem;
+  }
+
+  button {
+    padding: 0.6em 0.8em;
+    font-size: 0.9rem;
+  }
+
+  input,
+  select {
+    padding: 10px;
+  }
 }

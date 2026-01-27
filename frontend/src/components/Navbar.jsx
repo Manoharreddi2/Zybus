@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const { currentUser, logout } = useAuth();
     const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = async () => {
         try {
@@ -18,32 +19,93 @@ const Navbar = () => {
     return (
         <nav style={{
             backgroundColor: 'var(--bg-secondary)',
-            padding: '1rem 2rem',
+            padding: '1rem 1.5rem',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderBottom: '1px solid #222'
+            borderBottom: '1px solid #222',
+            flexWrap: 'wrap',
+            gap: '0.5rem'
         }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'var(--text-primary)', fontSize: '1.5rem', fontWeight: 'bold' }}>
                 <span style={{ color: 'var(--accent-color)' }}>Zy</span>bus
             </Link>
-            <div>
+
+            {/* Mobile menu toggle */}
+            <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                style={{
+                    display: 'none',
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--text-primary)',
+                    fontSize: '1.5rem',
+                    cursor: 'pointer',
+                    padding: '0.25rem'
+                }}
+                className="mobile-menu-btn"
+            >
+                ☰
+            </button>
+
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                flexWrap: 'wrap'
+            }} className={menuOpen ? 'nav-links-open' : ''}>
                 {currentUser ? (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <span style={{ color: 'var(--text-secondary)' }}>{currentUser.email}</span>
-                        <button onClick={handleLogout} style={{ fontSize: '0.9rem' }}>Logout</button>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center'
+                    }}>
+                        <span style={{
+                            color: 'var(--text-secondary)',
+                            fontSize: '0.85rem',
+                            maxWidth: '150px',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                        }}>
+                            {currentUser.email}
+                        </span>
+                        <button
+                            onClick={handleLogout}
+                            style={{
+                                fontSize: '0.85rem',
+                                padding: '0.5rem 1rem'
+                            }}
+                        >
+                            Logout
+                        </button>
                     </div>
                 ) : (
-                    <div>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                         <Link to="/login">
-                            <button style={{ marginRight: '10px' }}>Login</button>
+                            <button style={{ fontSize: '0.85rem', padding: '0.5rem 1rem' }}>Login</button>
                         </Link>
                         <Link to="/signup">
-                            <button>Sign Up</button>
+                            <button style={{ fontSize: '0.85rem', padding: '0.5rem 1rem' }}>Sign Up</button>
                         </Link>
                     </div>
                 )}
             </div>
+
+            <style>{`
+                @media screen and (max-width: 480px) {
+                    .mobile-menu-btn {
+                        display: block !important;
+                    }
+                    .nav-links-open {
+                        width: 100%;
+                        justify-content: center;
+                        padding-top: 0.5rem;
+                    }
+                }
+            `}</style>
         </nav>
     );
 };

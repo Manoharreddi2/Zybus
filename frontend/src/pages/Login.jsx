@@ -34,63 +34,69 @@ const Login = () => {
         <div style={{
             display: 'flex',
             justifyContent: 'center',
-            marginTop: '5rem'
+            alignItems: 'flex-start',
+            padding: '1rem',
+            marginTop: 'clamp(1rem, 5vw, 5rem)',
+            width: '100%',
+            boxSizing: 'border-box'
         }}>
             <div style={{
                 backgroundColor: 'var(--bg-secondary)',
-                padding: '2rem',
+                padding: 'clamp(1.25rem, 4vw, 2rem)',
                 borderRadius: '8px',
                 width: '100%',
                 maxWidth: '400px',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
+                boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
+                boxSizing: 'border-box'
             }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Login</h2>
-                {error && <div style={{ color: '#ff4d4d', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
+                <h2 style={{ textAlign: 'center', marginBottom: '1.5rem', fontSize: 'clamp(1.25rem, 4vw, 1.5rem)' }}>Login</h2>
+                {error && <div style={{ color: '#ff4d4d', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem', wordBreak: 'break-word' }}>{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '1rem' }}>
-                        <label>Email</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Email</label>
                         <input
                             type="email"
                             required
-                            style={{ width: '100%', marginTop: '0.5rem' }}
+                            style={{ width: '100%', boxSizing: 'border-box', fontSize: '16px' }}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                     <div style={{ marginBottom: '1.5rem' }}>
-                        <label>Password</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Password</label>
                         <input
                             type="password"
                             required
-                            style={{ width: '100%', marginTop: '0.5rem' }}
+                            style={{ width: '100%', boxSizing: 'border-box', fontSize: '16px' }}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <button type="submit" style={{ width: '100%', marginBottom: '1rem' }}>Login</button>
+                    <button type="submit" style={{ width: '100%', marginBottom: '1rem', padding: '0.8rem' }}>Login</button>
                 </form>
-                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>OR</div>
+                <div style={{ textAlign: 'center', marginBottom: '1rem', color: 'var(--text-secondary)' }}>OR</div>
                 <button
                     onClick={handleGoogleLogin}
                     style={{
                         width: '100%',
                         backgroundColor: '#db4437',
                         color: 'white',
-                        marginBottom: '1rem'
+                        marginBottom: '1rem',
+                        padding: '0.8rem'
                     }}
                 >
                     Login with Google
                 </button>
-                <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
+                <div style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
                     Need an account? <Link to="/signup" style={{ color: 'var(--accent-color)' }}>Sign Up</Link>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <Link to="/forgot-password" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                    <Link to="/forgot-password" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
                         Forgot Password?
                     </Link>
                 </div>
 
-                <div style={{ marginTop: '2rem', borderTop: '1px solid #333', paddingTop: '1rem', textAlign: 'center' }}>
+                <div style={{ marginTop: '1.5rem', borderTop: '1px solid #333', paddingTop: '1rem', textAlign: 'center' }}>
                     <button
                         type="button"
                         onClick={async () => {
@@ -105,8 +111,9 @@ const Login = () => {
                             backgroundColor: 'transparent',
                             border: '1px solid var(--text-secondary)',
                             color: 'var(--text-secondary)',
-                            fontSize: '0.9rem',
-                            padding: '0.5rem 1rem'
+                            fontSize: '0.85rem',
+                            padding: '0.5rem 1rem',
+                            width: '100%'
                         }}
                     >
                         Skip & Enter as Guest (Demo)

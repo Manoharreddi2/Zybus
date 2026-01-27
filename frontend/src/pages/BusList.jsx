@@ -31,17 +31,17 @@ const BusList = () => {
     }, [from, to, date]);
 
     return (
-        <div className="container" style={{ marginTop: '2rem' }}>
-            <div style={{ marginBottom: '2rem', color: 'var(--text-secondary)' }}>
-                <h2>Available Buses</h2>
-                <p>{from} to {to} on {date}</p>
+        <div className="container" style={{ marginTop: '1.5rem' }}>
+            <div style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)' }}>
+                <h2 style={{ marginBottom: '0.5rem' }}>Available Buses</h2>
+                <p style={{ fontSize: 'clamp(0.85rem, 2.5vw, 1rem)' }}>{from} → {to} on {date}</p>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {buses.map(bus => (
                     <div key={bus.id} style={{
                         backgroundColor: 'var(--bg-secondary)',
-                        padding: '1.5rem',
+                        padding: 'clamp(1rem, 3vw, 1.5rem)',
                         borderRadius: '12px',
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -55,27 +55,39 @@ const BusList = () => {
                         onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent-color)'}
                         onMouseLeave={(e) => e.currentTarget.style.borderColor = '#222'}
                     >
-                        <div style={{ flex: 2 }}>
-                            <h3 style={{ margin: 0, color: 'white' }}>{bus.name}</h3>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: '0.5rem 0' }}>{bus.type}</p>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <span style={{ backgroundColor: '#00b894', color: 'black', padding: '2px 6px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>★ {bus.rating}</span>
-                                <span style={{ color: '#888', fontSize: '0.8rem' }}>140 ratings</span>
+                        {/* Bus Info */}
+                        <div style={{ flex: '2 1 200px', minWidth: '150px' }}>
+                            <h3 style={{ margin: 0, color: 'white', fontSize: 'clamp(1rem, 3vw, 1.2rem)' }}>{bus.name}</h3>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: '0.5rem 0' }}>{bus.type}</p>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexWrap: 'wrap' }}>
+                                <span style={{ backgroundColor: '#00b894', color: 'black', padding: '2px 6px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold' }}>★ {bus.rating}</span>
+                                <span style={{ color: '#888', fontSize: '0.75rem' }}>140 ratings</span>
                             </div>
                         </div>
 
-                        <div style={{ flex: 1, textAlign: 'center' }}>
-                            <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{bus.departure}</div>
-                            <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>{bus.duration}</div>
-                            <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{bus.arrival}</div>
+                        {/* Time Info */}
+                        <div style={{ flex: '1 1 100px', textAlign: 'center', minWidth: '80px' }}>
+                            <div style={{ fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', fontWeight: 'bold' }}>{bus.departure}</div>
+                            <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>{bus.duration}</div>
+                            <div style={{ fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', fontWeight: 'bold' }}>{bus.arrival}</div>
                         </div>
 
-                        <div style={{ flex: 1, textAlign: 'right' }}>
-                            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent-color)' }}>₹{bus.price}</div>
-                            <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>{bus.seatsAvailable} Seats Left</div>
+                        {/* Price & Action */}
+                        <div style={{ flex: '1 1 120px', textAlign: 'center', minWidth: '100px' }}>
+                            <div style={{ fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', fontWeight: 'bold', color: 'var(--accent-color)' }}>₹{bus.price}</div>
+                            <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '0.75rem' }}>{bus.seatsAvailable} Seats Left</div>
                             <button
                                 onClick={() => navigate('/seats', { state: { bus } })}
-                                style={{ backgroundColor: 'var(--accent-color)', color: 'black', border: 'none', fontWeight: 'bold' }}>
+                                style={{
+                                    backgroundColor: 'var(--accent-color)',
+                                    color: 'black',
+                                    border: 'none',
+                                    fontWeight: 'bold',
+                                    padding: '0.6rem 1.2rem',
+                                    fontSize: '0.85rem',
+                                    width: '100%',
+                                    maxWidth: '150px'
+                                }}>
                                 View Seats
                             </button>
                         </div>

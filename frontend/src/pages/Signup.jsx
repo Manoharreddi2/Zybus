@@ -38,64 +38,70 @@ const Signup = () => {
         <div style={{
             display: 'flex',
             justifyContent: 'center',
-            marginTop: '5rem'
+            alignItems: 'flex-start',
+            padding: '1rem',
+            marginTop: 'clamp(1rem, 5vw, 5rem)',
+            width: '100%',
+            boxSizing: 'border-box'
         }}>
             <div style={{
                 backgroundColor: 'var(--bg-secondary)',
-                padding: '2rem',
+                padding: 'clamp(1.25rem, 4vw, 2rem)',
                 borderRadius: '8px',
                 width: '100%',
                 maxWidth: '400px',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
+                boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
+                boxSizing: 'border-box'
             }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Sign Up</h2>
-                {error && <div style={{ color: '#ff4d4d', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
+                <h2 style={{ textAlign: 'center', marginBottom: '1.5rem', fontSize: 'clamp(1.25rem, 4vw, 1.5rem)' }}>Sign Up</h2>
+                {error && <div style={{ color: '#ff4d4d', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem', wordBreak: 'break-word' }}>{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '1rem' }}>
-                        <label>Email</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Email</label>
                         <input
                             type="email"
                             required
-                            style={{ width: '100%', marginTop: '0.5rem' }}
+                            style={{ width: '100%', boxSizing: 'border-box', fontSize: '16px' }}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                     <div style={{ marginBottom: '1rem' }}>
-                        <label>Password</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Password</label>
                         <input
                             type="password"
                             required
-                            style={{ width: '100%', marginTop: '0.5rem' }}
+                            style={{ width: '100%', boxSizing: 'border-box', fontSize: '16px' }}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     <div style={{ marginBottom: '1.5rem' }}>
-                        <label>Confirm Password</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Confirm Password</label>
                         <input
                             type="password"
                             required
-                            style={{ width: '100%', marginTop: '0.5rem' }}
+                            style={{ width: '100%', boxSizing: 'border-box', fontSize: '16px' }}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </div>
-                    <button type="submit" style={{ width: '100%', marginBottom: '1rem' }}>Sign Up</button>
+                    <button type="submit" style={{ width: '100%', marginBottom: '1rem', padding: '0.8rem' }}>Sign Up</button>
                 </form>
-                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>OR</div>
+                <div style={{ textAlign: 'center', marginBottom: '1rem', color: 'var(--text-secondary)' }}>OR</div>
                 <button
                     onClick={handleGoogleLogin}
                     style={{
                         width: '100%',
                         backgroundColor: '#db4437',
                         color: 'white',
-                        marginBottom: '1rem'
+                        marginBottom: '1rem',
+                        padding: '0.8rem'
                     }}
                 >
                     Sign Up with Google
                 </button>
-                <div style={{ textAlign: 'center' }}>
+                <div style={{ textAlign: 'center', fontSize: '0.9rem' }}>
                     Already have an account? <Link to="/login" style={{ color: 'var(--accent-color)' }}>Login</Link>
                 </div>
             </div>
