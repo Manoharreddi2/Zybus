@@ -3,12 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
 
 const MOCK_BUSES = [
-    { id: 1, name: "NeoTravels Premium", type: "AC Sleeper (2+1)", departure: "22:00", arrival: "06:00", duration: "8h 00m", price: 1200, seatsAvailable: 12, rating: 4.5 },
-    { id: 2, name: "CityExpress", type: "Non-AC Seater (2+2)", departure: "20:30", arrival: "05:00", duration: "8h 30m", price: 800, seatsAvailable: 24, rating: 4.0 },
-    { id: 3, name: "NightRider", type: "AC Volvo", departure: "23:00", arrival: "06:30", duration: "7h 30m", price: 1500, seatsAvailable: 5, rating: 4.8 },
-    { id: 4, name: "InterCity Gold", type: "AC Sleeper", departure: "21:15", arrival: "05:45", duration: "8h 30m", price: 1100, seatsAvailable: 15, rating: 4.2 },
-    { id: 5, name: "Royal Travels", type: "Premium Luxury", departure: "21:00", arrival: "05:30", duration: "8h 30m", price: 2000, seatsAvailable: 8, rating: 4.9 },
-    { id: 6, name: "Budget Express", type: "Non-AC Seater", departure: "19:00", arrival: "04:00", duration: "9h 00m", price: 600, seatsAvailable: 30, rating: 3.8 },
+    { id: 1, name: "NeoTravels Premium", type: "AC Sleeper (2+1)", departure: "22:00", arrival: "06:00", duration: "8h 00m", price: 50, seatsAvailable: 12, rating: 4.5 },
+    { id: 2, name: "CityExpress", type: "Non-AC Seater (2+2)", departure: "20:30", arrival: "05:00", duration: "8h 30m", price: 50, seatsAvailable: 24, rating: 4.0 },
+    { id: 3, name: "NightRider", type: "AC Volvo", departure: "23:00", arrival: "06:30", duration: "7h 30m", price: 50, seatsAvailable: 5, rating: 4.8 },
+    { id: 4, name: "InterCity Gold", type: "AC Sleeper", departure: "21:15", arrival: "05:45", duration: "8h 30m", price: 50, seatsAvailable: 15, rating: 4.2 },
+    { id: 5, name: "Royal Travels", type: "Premium Luxury", departure: "21:00", arrival: "05:30", duration: "8h 30m", price: 50, seatsAvailable: 8, rating: 4.9 },
+    { id: 6, name: "Budget Express", type: "Non-AC Seater", departure: "19:00", arrival: "04:00", duration: "9h 00m", price: 50, seatsAvailable: 30, rating: 3.8 },
 ];
 
 // Filter categories
