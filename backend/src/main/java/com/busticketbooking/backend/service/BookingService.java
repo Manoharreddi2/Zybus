@@ -44,7 +44,7 @@ public class BookingService {
             }
         } catch (Exception e) {
             System.err.println("Error saving to Firestore: " + e.getMessage());
-            // In case of error, we still return the ID for demo purposes if it's just a config issue
+            throw new RuntimeException("Failed to save booking to backend");
         }
         
         // Send Email Notification
