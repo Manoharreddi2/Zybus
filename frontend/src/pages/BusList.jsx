@@ -37,8 +37,9 @@ const BusList = () => {
             .catch(err => {
                 console.warn("Failed to fetch buses, using mock data", err);
                 setBuses(MOCK_BUSES);
-            });
-    }, [from, to, date]);
+            })
+            .finally(() => setLoading(false));
+    }, [from, to, date, navigate]);
 
     return (
         <div className="container" style={{ marginTop: '1.5rem' }}>
