@@ -171,8 +171,11 @@ const ForgotPassword = () => {
                 {step === 3 && (
                     <div style={{ textAlign: 'center' }}>
                         <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✉️</div>
-                        <p style={{ marginBottom: '2rem' }}>
+                        <p style={{ marginBottom: '1rem' }}>
                             Check your email for the password reset link!
+                        </p>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '2rem', opacity: 0.8 }}>
+                            📧 Don't forget to check your spam/junk folder!
                         </p>
                         <button
                             onClick={() => navigate('/login')}
