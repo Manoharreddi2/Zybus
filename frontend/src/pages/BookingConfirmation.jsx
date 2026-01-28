@@ -471,7 +471,7 @@ const BookingConfirmation = () => {
                         <span>Paytm</span>
                     </div>
                     <div style={{ fontSize: '0.75rem', opacity: 0.8, color: 'var(--accent-color)' }}>
-                        (Test Mode: use "success@razorpay")
+                        (Test Mode: use "success@razorpay" in the UPI ID field)
                     </div>
                 </div>
 
