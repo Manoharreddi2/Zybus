@@ -99,6 +99,9 @@ const ForgotPassword = () => {
                         <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', textAlign: 'center' }}>
                             Enter your email address and we'll send you a password reset link.
                         </p>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '1rem', textAlign: 'center', opacity: 0.8 }}>
+                            📧 Don't forget to check your spam/junk folder!
+                        </p>
                         <div style={{ marginBottom: '1.5rem' }}>
                             <label>Email</label>
                             <input
