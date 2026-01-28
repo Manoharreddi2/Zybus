@@ -455,18 +455,24 @@ const BookingConfirmation = () => {
                 {/* UPI Payment Info */}
                 <div style={{
                     display: 'flex',
-                    justifyContent: 'center',
-                    gap: '1rem',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '0.25rem',
                     marginBottom: '1rem',
                     fontSize: '0.85rem',
                     color: 'var(--text-secondary)'
                 }}>
-                    <span>💳 Pay via UPI:</span>
-                    <span>GPay</span>
-                    <span>•</span>
-                    <span>PhonePe</span>
-                    <span>•</span>
-                    <span>Paytm</span>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <span>💳 Pay via UPI:</span>
+                        <span>GPay</span>
+                        <span>•</span>
+                        <span>PhonePe</span>
+                        <span>•</span>
+                        <span>Paytm</span>
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.8, color: 'var(--accent-color)' }}>
+                        (Test Mode: use success@razorpay)
+                    </div>
                 </div>
 
                 <button
