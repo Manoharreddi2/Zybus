@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -64,5 +65,41 @@ public class BookingService {
             seats,
             request.getTotalAmount()
         );
+    }
+
+    public List<Map<String, Object>> getBookingsByUserId(String userId) {
+        List<Map<String, Object>> bookings = new java.util.ArrayList<>();
+        
+        try {
+            Firestore db = FirestoreClient.getFirestore();
+            if (db != null) {
+                var querySnapshot = db.collection("bookings")
+                    .whereEqualTo("userId", userId)
+                    .get()
+                    .get();
+                
+                for (var doc : querySnapshot.getDocuments()) {
+                    Map<String, Object> booking = doc.getData();
+                    
+                    // Enrich booking with bus details
+                    String busId = (String) booking.get("busId");
+                    if (busId != null) {
+                        Bus bus = busService.getBusById(busId);
+                        if (bus != null) {
+                            booking.put("busName", bus.getName());
+                            booking.put("busType", bus.getType());
+                            booking.put("departure", bus.getDeparture());
+                            booking.put("arrival", bus.getArrival());
+                        }
+                    }
+                    
+                    bookings.add(booking);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error fetching bookings: " + e.getMessage());
+        }
+        
+        return bookings;
     }
 }
