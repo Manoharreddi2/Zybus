@@ -27,6 +27,12 @@ const MyProfile = () => {
                     const response = await fetch(API_ENDPOINTS.getUserBookings(currentUser.uid));
                     if (response.ok) {
                         const data = await response.json();
+                        // Sort by date: latest first
+                        data.sort((a, b) => {
+                            const dateA = new Date(a.bookedAt || a.createdAt || 0);
+                            const dateB = new Date(b.bookedAt || b.createdAt || 0);
+                            return dateB - dateA;
+                        });
                         setOrders(data);
                         setLoading(false);
                         return;
@@ -43,6 +49,13 @@ const MyProfile = () => {
 
                 querySnapshot.forEach((doc) => {
                     bookingsData.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort by date: latest first
+                bookingsData.sort((a, b) => {
+                    const dateA = new Date(a.bookedAt || a.createdAt || 0);
+                    const dateB = new Date(b.bookedAt || b.createdAt || 0);
+                    return dateB - dateA; // Descending order (latest first)
                 });
 
                 setOrders(bookingsData);
