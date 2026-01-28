@@ -174,9 +174,34 @@ const ForgotPassword = () => {
                         <p style={{ marginBottom: '1rem' }}>
                             Check your email for the password reset link!
                         </p>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '2rem', opacity: 0.8 }}>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1rem', opacity: 0.8 }}>
                             📧 Don't forget to check your spam/junk folder!
                         </p>
+                        <a
+                            href="https://mail.google.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '0.5rem 1rem',
+                                marginBottom: '1.5rem',
+                                backgroundColor: 'rgba(255,255,255,0.1)',
+                                borderRadius: '8px',
+                                color: 'var(--text-primary)',
+                                textDecoration: 'none',
+                                fontSize: '0.9rem',
+                                transition: 'background-color 0.2s'
+                            }}
+                        >
+                            <img
+                                src="https://www.google.com/gmail/about/static-2.0/images/logo-gmail.png"
+                                alt="Gmail"
+                                style={{ width: '20px', height: '20px' }}
+                            />
+                            Open Gmail
+                        </a>
                         <button
                             onClick={() => navigate('/login')}
                             style={{ width: '100%' }}
