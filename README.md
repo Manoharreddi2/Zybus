@@ -2,6 +2,8 @@
 
 A full-stack Bus Ticket Booking application with a pure black theme, React frontend, Spring Boot backend, and Firebase integration.
 
+For testing the payment integration, enter the UPI ID success@razorpay in the UPI field.
+
 ## 🚀 Features
 
 - **Strict Black Theme**: Premium dark UI with neon accents.
