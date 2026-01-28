@@ -6,17 +6,25 @@ import { API_ENDPOINTS } from '../config/api';
  * @returns {Promise<Object>} Order details including orderId and keyId
  */
 export const createPaymentOrder = async (amount) => {
-    const response = await fetch(API_ENDPOINTS.createPaymentOrder, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount })
-    });
+    try {
+        const response = await fetch(API_ENDPOINTS.createPaymentOrder, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount })
+        });
 
-    if (!response.ok) {
-        throw new Error('Failed to create payment order');
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || 'Failed to create payment order. Please try again.');
+        }
+
+        return response.json();
+    } catch (error) {
+        if (error.message === 'Failed to fetch') {
+            throw new Error('Server is starting up. Please wait 1-2 minutes and try again.');
+        }
+        throw error;
     }
-
-    return response.json();
 };
 
 /**
