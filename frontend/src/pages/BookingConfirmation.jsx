@@ -32,6 +32,7 @@ const BookingConfirmation = () => {
         setLoading(true);
         try {
             let newBookingId = "ZB" + Math.floor(Math.random() * 1000000);
+            let savedToBackend = false;
 
             try {
                 const bookingRequest = {
@@ -52,9 +53,35 @@ const BookingConfirmation = () => {
                 if (response.ok) {
                     const data = await response.json();
                     newBookingId = data.bookingId;
+                    savedToBackend = true;
                 }
             } catch (apiError) {
-                console.warn("Backend not available, using simulation", apiError);
+                console.warn("Backend not available, saving to Firestore directly", apiError);
+            }
+
+            // If backend unavailable, save directly to Firestore
+            if (!savedToBackend) {
+                try {
+                    const { doc, setDoc } = await import('firebase/firestore');
+                    await setDoc(doc(db, 'bookings', newBookingId), {
+                        id: newBookingId,
+                        userId: currentUser.uid,
+                        email: currentUser.email,
+                        busId: bus.id,
+                        busName: bus.name,
+                        busType: bus.type,
+                        departure: bus.departure,
+                        arrival: bus.arrival,
+                        selectedSeats: selectedSeats,
+                        totalAmount: totalFare,
+                        date: bus.date || new Date().toISOString().split('T')[0],
+                        status: 'CONFIRMED',
+                        createdAt: new Date().toISOString()
+                    });
+                    console.log("Booking saved to Firestore:", newBookingId);
+                } catch (firestoreError) {
+                    console.error("Failed to save to Firestore:", firestoreError);
+                }
             }
 
             setBookingId(newBookingId);
