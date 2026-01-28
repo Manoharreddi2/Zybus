@@ -17,6 +17,12 @@ const BookingConfirmation = () => {
     const [emailStatus, setEmailStatus] = useState('');
     const ticketRef = useRef(null);
 
+    // Coupon code states
+    const [couponCode, setCouponCode] = useState('');
+    const [couponApplied, setCouponApplied] = useState(false);
+    const [couponError, setCouponError] = useState('');
+    const [discount, setDiscount] = useState(0);
+
     const { bus, selectedSeats } = location.state || {};
 
     useEffect(() => {
@@ -27,7 +33,34 @@ const BookingConfirmation = () => {
 
     if (!bus || !selectedSeats) return null;
 
-    const totalFare = selectedSeats.length * bus.price;
+    const baseFare = selectedSeats.length * bus.price;
+    const discountAmount = couponApplied ? Math.round(baseFare * discount) : 0;
+    const totalFare = baseFare - discountAmount;
+
+    // Apply coupon code
+    const applyCoupon = () => {
+        const code = couponCode.trim().toUpperCase();
+        setCouponError('');
+
+        if (code === 'ZYBUS10') {
+            setCouponApplied(true);
+            setDiscount(0.10); // 10% discount
+        } else if (code === '') {
+            setCouponError('Please enter a coupon code');
+        } else {
+            setCouponError('Invalid coupon code');
+            setCouponApplied(false);
+            setDiscount(0);
+        }
+    };
+
+    // Remove applied coupon
+    const removeCoupon = () => {
+        setCouponCode('');
+        setCouponApplied(false);
+        setDiscount(0);
+        setCouponError('');
+    };
 
     const confirmBooking = async () => {
         setLoading(true);
@@ -261,11 +294,21 @@ const BookingConfirmation = () => {
                     </div>
                 </div>
 
-                <div style={{ backgroundColor: '#000', padding: 'clamp(0.75rem, 2vw, 1rem)', borderRadius: '8px', marginBottom: '1.5rem' }}>
+                <div style={{ backgroundColor: '#000', padding: 'clamp(0.75rem, 2vw, 1rem)', borderRadius: '8px', marginBottom: '1rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: 'clamp(0.85rem, 2.5vw, 1rem)' }}>
                         <span>Seats ({selectedSeats.length})</span>
                         <span>{selectedSeats.join(', ')}</span>
                     </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: 'clamp(0.85rem, 2.5vw, 1rem)' }}>
+                        <span>Base Fare</span>
+                        <span>₹{baseFare}</span>
+                    </div>
+                    {couponApplied && (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: 'clamp(0.85rem, 2.5vw, 1rem)', color: '#00ff00' }}>
+                            <span>Discount (10%)</span>
+                            <span>-₹{discountAmount}</span>
+                        </div>
+                    )}
                     <div style={{
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -279,6 +322,79 @@ const BookingConfirmation = () => {
                         <span>Total To Pay</span>
                         <span>₹{totalFare}</span>
                     </div>
+                </div>
+
+                {/* Coupon Code Section */}
+                <div style={{
+                    backgroundColor: '#000',
+                    padding: 'clamp(0.75rem, 2vw, 1rem)',
+                    borderRadius: '8px',
+                    marginBottom: '1.5rem',
+                    border: couponApplied ? '1px solid #00ff00' : '1px solid #333'
+                }}>
+                    <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+                        🎟️ Have a coupon code?
+                    </div>
+                    {!couponApplied ? (
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                            <input
+                                type="text"
+                                value={couponCode}
+                                onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                                placeholder="Enter code (e.g., ZYBUS10)"
+                                style={{
+                                    flex: '1 1 150px',
+                                    padding: '0.6rem',
+                                    backgroundColor: 'var(--bg-secondary)',
+                                    border: '1px solid #444',
+                                    borderRadius: '6px',
+                                    color: 'white',
+                                    fontSize: '0.9rem',
+                                    textTransform: 'uppercase'
+                                }}
+                            />
+                            <button
+                                onClick={applyCoupon}
+                                style={{
+                                    padding: '0.6rem 1rem',
+                                    backgroundColor: 'var(--accent-color)',
+                                    color: 'black',
+                                    border: 'none',
+                                    borderRadius: '6px',
+                                    fontWeight: 'bold',
+                                    cursor: 'pointer',
+                                    fontSize: '0.85rem'
+                                }}
+                            >
+                                Apply
+                            </button>
+                        </div>
+                    ) : (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+                            <div style={{ color: '#00ff00', fontWeight: 'bold' }}>
+                                ✅ ZYBUS10 applied - 10% OFF!
+                            </div>
+                            <button
+                                onClick={removeCoupon}
+                                style={{
+                                    padding: '0.4rem 0.8rem',
+                                    backgroundColor: 'transparent',
+                                    color: '#ff4d4d',
+                                    border: '1px solid #ff4d4d',
+                                    borderRadius: '6px',
+                                    cursor: 'pointer',
+                                    fontSize: '0.8rem'
+                                }}
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    )}
+                    {couponError && (
+                        <div style={{ color: '#ff4d4d', fontSize: '0.8rem', marginTop: '0.5rem' }}>
+                            {couponError}
+                        </div>
+                    )}
                 </div>
 
                 <button
