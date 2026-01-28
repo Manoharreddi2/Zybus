@@ -71,13 +71,15 @@ const BookingConfirmation = () => {
                         busId: bus.id,
                         busName: bus.name,
                         busType: bus.type,
-                        departure: bus.departure,
-                        arrival: bus.arrival,
+                        departure: bus.from || bus.departure,
+                        arrival: bus.to || bus.arrival,
+                        departureTime: bus.departure || '22:00',
+                        arrivalTime: bus.arrival || '06:00',
                         selectedSeats: selectedSeats,
                         totalAmount: totalFare,
                         date: bus.date || new Date().toISOString().split('T')[0],
                         status: 'CONFIRMED',
-                        createdAt: new Date().toISOString()
+                        bookedAt: new Date().toISOString()
                     });
                     console.log("Booking saved to Firestore:", newBookingId);
                 } catch (firestoreError) {

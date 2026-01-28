@@ -246,7 +246,7 @@ const MyProfile = () => {
 
                                         <div style={{
                                             display: 'grid',
-                                            gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+                                            gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
                                             gap: '0.75rem',
                                             backgroundColor: '#000',
                                             padding: '1rem',
@@ -254,12 +254,14 @@ const MyProfile = () => {
                                             fontSize: '0.9rem'
                                         }}>
                                             <div>
-                                                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>📍 From</div>
+                                                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>🚌 Departure</div>
                                                 <div style={{ fontWeight: '500', color: 'var(--text-primary)' }}>{order.departure || 'N/A'}</div>
+                                                <div style={{ fontSize: '0.75rem', color: 'var(--accent-color)' }}>{order.departureTime || '22:00'}</div>
                                             </div>
                                             <div>
-                                                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>📍 To</div>
+                                                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>📍 Arrival</div>
                                                 <div style={{ fontWeight: '500', color: 'var(--text-primary)' }}>{order.arrival || 'N/A'}</div>
+                                                <div style={{ fontSize: '0.75rem', color: 'var(--accent-color)' }}>{order.arrivalTime || '06:00'}</div>
                                             </div>
                                             <div>
                                                 <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>💺 Seats</div>
@@ -268,9 +270,20 @@ const MyProfile = () => {
                                                 </div>
                                             </div>
                                             <div>
-                                                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>📅 Date</div>
+                                                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>📅 Travel Date</div>
                                                 <div style={{ fontWeight: '500', color: 'var(--text-primary)' }}>{order.date || 'N/A'}</div>
                                             </div>
+                                            {(order.bookedAt || order.createdAt) && (
+                                                <div>
+                                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>🕐 Booked At</div>
+                                                    <div style={{ fontWeight: '500', color: 'var(--text-primary)', fontSize: '0.8rem' }}>
+                                                        {new Date(order.bookedAt || order.createdAt).toLocaleString('en-IN', {
+                                                            dateStyle: 'short',
+                                                            timeStyle: 'short'
+                                                        })}
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
