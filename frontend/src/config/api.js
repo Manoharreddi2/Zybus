@@ -1,6 +1,6 @@
 // API Configuration
 // Change this URL when deploying to production
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://zybus-5.onrender.com';
 
 export const API_ENDPOINTS = {
     // Auth

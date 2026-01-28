@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
+import { API_ENDPOINTS } from '../config/api';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -29,7 +30,7 @@ const ForgotPassword = () => {
 
             // Try to send via backend first
             try {
-                const response = await fetch('http://localhost:8080/api/auth/send-otp', {
+                const response = await fetch(API_ENDPOINTS.sendOtp, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, otp: newOtp })
