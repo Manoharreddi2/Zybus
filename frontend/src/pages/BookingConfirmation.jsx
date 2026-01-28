@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { sendBookingEmail } from '../services/emailService';
+import { API_ENDPOINTS } from '../config/api';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -44,7 +45,7 @@ const BookingConfirmation = () => {
                     date: bus.date || new Date().toISOString().split('T')[0]
                 };
 
-                const response = await fetch('http://localhost:8080/api/bookings', {
+                const response = await fetch(API_ENDPOINTS.createBooking, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(bookingRequest)

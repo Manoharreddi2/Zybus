@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { API_ENDPOINTS } from '../config/api';
 
 const MyProfile = () => {
     const { currentUser } = useAuth();
@@ -23,7 +24,7 @@ const MyProfile = () => {
             try {
                 // Try fetching from backend first
                 try {
-                    const response = await fetch(`http://localhost:8080/api/bookings/user/${currentUser.uid}`);
+                    const response = await fetch(API_ENDPOINTS.getUserBookings(currentUser.uid));
                     if (response.ok) {
                         const data = await response.json();
                         setOrders(data);

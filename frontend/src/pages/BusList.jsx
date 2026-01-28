@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 
 const MOCK_BUSES = [
     { id: 1, name: "NeoTravels Premium", type: "AC Sleeper (2+1)", departure: "22:00", arrival: "06:00", duration: "8h 00m", price: 1200, seatsAvailable: 12, rating: 4.5 },
@@ -9,16 +10,25 @@ const MOCK_BUSES = [
 ];
 
 const BusList = () => {
-    const [searchParams] = useSearchParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [buses, setBuses] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const searchParams = new URLSearchParams(location.search);
     const from = searchParams.get('from');
     const to = searchParams.get('to');
     const date = searchParams.get('date');
-    const [buses, setBuses] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch from Backend
-        fetch(`http://localhost:8080/api/buses?from=${from}&to=${to}&date=${date}`)
+        if (!from || !to || !date) {
+            navigate('/');
+            return;
+        }
+
+        setLoading(true);
+        // Fetch buses from API
+        fetch(API_ENDPOINTS.searchBuses(from, to, date))
             .then(res => {
                 if (!res.ok) throw new Error("Backend not reachable");
                 return res.json();
