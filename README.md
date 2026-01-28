@@ -58,3 +58,12 @@ Access API at `http://localhost:8080/api/buses`
 - Cards: `#111111`
 - Text: `#ffffff`
 - Accents: Neon Blue/Cyan
+
+## 🧪 Testing Payments (Laptop/PC)
+
+Since you cannot scan QR codes in Test Mode, follow these steps:
+1. Click **Pay Now** to open Razorpay.
+2. Select **UPI** payment method.
+3. Click **"Enter UPI ID"** (do not scan QR).
+4. Enter test ID: `success@razorpay`
+5. Click **Pay Now** to complete the transaction successfully.
