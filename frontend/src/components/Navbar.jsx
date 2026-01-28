@@ -62,7 +62,7 @@ const Navbar = () => {
                         flexWrap: 'wrap',
                         justifyContent: 'center'
                     }}>
-                        <Link to="/my-orders" style={{ textDecoration: 'none' }}>
+                        <Link to="/my-profile" style={{ textDecoration: 'none' }}>
                             <button style={{
                                 fontSize: '0.85rem',
                                 padding: '0.5rem 1rem',
@@ -70,7 +70,7 @@ const Navbar = () => {
                                 border: '1px solid var(--accent-color)',
                                 color: 'var(--accent-color)'
                             }}>
-                                My Orders
+                                My Profile
                             </button>
                         </Link>
                         <span style={{

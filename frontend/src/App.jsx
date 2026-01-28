@@ -8,7 +8,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import BusList from './pages/BusList';
 import SeatSelection from './pages/SeatSelection';
 import BookingConfirmation from './pages/BookingConfirmation';
-import MyOrders from './pages/MyOrders';
+import MyProfile from './pages/MyProfile';
 import './App.css';
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
             <Route path="/buses" element={<BusList />} />
             <Route path="/seats" element={<SeatSelection />} />
             <Route path="/booking-confirmation" element={<BookingConfirmation />} />
-            <Route path="/my-orders" element={<MyOrders />} />
+            <Route path="/my-profile" element={<MyProfile />} />
           </Routes>
         </div>
       </AuthProvider>
