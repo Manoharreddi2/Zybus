@@ -470,8 +470,23 @@ const BookingConfirmation = () => {
                         <span>•</span>
                         <span>Paytm</span>
                     </div>
-                    <div style={{ fontSize: '0.75rem', opacity: 0.8, color: 'var(--accent-color)' }}>
-                        (Test Mode: use "success@razorpay" in the UPI ID field)
+                    <div style={{ fontSize: '0.75rem', opacity: 0.8, color: 'var(--accent-color)', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        (Test Mode: use
+                        <span
+                            onClick={() => {
+                                navigator.clipboard.writeText('success@razorpay');
+                                alert('Copied: success@razorpay');
+                            }}
+                            style={{
+                                cursor: 'pointer',
+                                textDecoration: 'underline',
+                                fontWeight: 'bold'
+                            }}
+                            title="Click to copy"
+                        >
+                            "success@razorpay"
+                        </span>
+                        in the UPI ID field)
                     </div>
                 </div>
 
