@@ -12,6 +12,10 @@ export const API_ENDPOINTS = {
     // Bookings
     createBooking: `${API_BASE_URL}/api/bookings`,
     getUserBookings: (userId) => `${API_BASE_URL}/api/bookings/user/${userId}`,
+
+    // Payments (Razorpay)
+    createPaymentOrder: `${API_BASE_URL}/api/payments/create-order`,
+    verifyPayment: `${API_BASE_URL}/api/payments/verify`,
 };
 
 export default API_BASE_URL;

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { sendBookingEmail } from '../services/emailService';
+import { createPaymentOrder, openRazorpayCheckout, verifyPayment } from '../services/paymentService';
 import { API_ENDPOINTS } from '../config/api';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -15,6 +16,7 @@ const BookingConfirmation = () => {
     const [bookingId, setBookingId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [emailStatus, setEmailStatus] = useState('');
+    const [paymentError, setPaymentError] = useState('');
     const ticketRef = useRef(null);
 
     // Coupon code states
@@ -62,8 +64,43 @@ const BookingConfirmation = () => {
         setCouponError('');
     };
 
-    const confirmBooking = async () => {
+    // Process payment and then confirm booking
+    const handlePayment = async () => {
         setLoading(true);
+        setPaymentError('');
+
+        try {
+            // Step 1: Create payment order
+            const orderDetails = await createPaymentOrder(totalFare);
+
+            // Step 2: Open Razorpay checkout (shows PhonePe, GPay, Paytm UPI options)
+            const paymentResult = await openRazorpayCheckout({
+                keyId: orderDetails.keyId,
+                amount: orderDetails.amount,
+                currency: orderDetails.currency,
+                orderId: orderDetails.orderId,
+                email: currentUser.email,
+                description: `${bus.name} - ${selectedSeats.length} seat(s)`
+            });
+
+            // Step 3: Verify payment on backend
+            await verifyPayment(
+                paymentResult.orderId,
+                paymentResult.paymentId,
+                paymentResult.signature
+            );
+
+            // Step 4: Payment successful - now create booking
+            await confirmBooking(paymentResult.paymentId);
+
+        } catch (error) {
+            console.error("Payment failed:", error);
+            setPaymentError(error.message || 'Payment failed. Please try again.');
+            setLoading(false);
+        }
+    };
+
+    const confirmBooking = async (paymentId) => {
         try {
             let newBookingId = "ZB" + Math.floor(Math.random() * 1000000);
             let savedToBackend = false;
@@ -75,6 +112,7 @@ const BookingConfirmation = () => {
                     busId: bus.id,
                     selectedSeats: selectedSeats,
                     totalAmount: totalFare,
+                    paymentId: paymentId,
                     date: bus.date || new Date().toISOString().split('T')[0]
                 };
 
@@ -110,6 +148,7 @@ const BookingConfirmation = () => {
                         arrivalTime: bus.arrival || '06:00',
                         selectedSeats: selectedSeats,
                         totalAmount: totalFare,
+                        paymentId: paymentId,
                         date: bus.date || new Date().toISOString().split('T')[0],
                         status: 'CONFIRMED',
                         bookedAt: new Date().toISOString()
@@ -397,8 +436,41 @@ const BookingConfirmation = () => {
                     )}
                 </div>
 
+                {/* Payment Error Display */}
+                {paymentError && (
+                    <div style={{
+                        backgroundColor: '#ff4d4d20',
+                        border: '1px solid #ff4d4d',
+                        borderRadius: '8px',
+                        padding: '0.75rem',
+                        marginBottom: '1rem',
+                        color: '#ff4d4d',
+                        fontSize: '0.9rem',
+                        textAlign: 'center'
+                    }}>
+                        ⚠️ {paymentError}
+                    </div>
+                )}
+
+                {/* UPI Payment Info */}
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '1rem',
+                    marginBottom: '1rem',
+                    fontSize: '0.85rem',
+                    color: 'var(--text-secondary)'
+                }}>
+                    <span>💳 Pay via UPI:</span>
+                    <span>GPay</span>
+                    <span>•</span>
+                    <span>PhonePe</span>
+                    <span>•</span>
+                    <span>Paytm</span>
+                </div>
+
                 <button
-                    onClick={confirmBooking}
+                    onClick={handlePayment}
                     disabled={loading}
                     style={{
                         width: '100%',
@@ -412,7 +484,7 @@ const BookingConfirmation = () => {
                         cursor: loading ? 'not-allowed' : 'pointer'
                     }}
                 >
-                    {loading ? 'Processing...' : 'Confirm Booking'}
+                    {loading ? 'Processing Payment...' : `Pay ₹${totalFare} Now`}
                 </button>
             </div>
         </div>
