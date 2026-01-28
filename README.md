@@ -8,13 +8,14 @@ A full-stack Bus Ticket Booking application with a pure black theme, React front
 - **Firebase Authentication**: Login/Signup with Email/Password and Google.
 - **Bus Search**: Select City (20+ predefined), Date.
 - **Visual Seat Selection**: Interactive grid for seat booking.
-- **Instant Booking**: Direct confirmation without payment gateway.
-- **Spring Boot Backend**: REST APIs for buses and bookings.
+- **Razorpay UPI Integration**: Secure payments via GPay, PhonePe, and Paytm.
+- **Spring Boot Backend**: REST APIs for buses, bookings, and payments.
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React, Vite, CSS Modules (Black Theme)
 - **Backend**: Spring Boot 3.x, Java 17
+- **Payment Gateway**: Razorpay (UPI)
 - **Database**: Firestore (via Firebase Admin SDK)
 - **Authentication**: Firebase Auth
 
@@ -24,6 +25,7 @@ A full-stack Bus Ticket Booking application with a pure black theme, React front
 - Node.js & npm
 - Java 17+ & Maven
 - Firebase Service Account Key (optional for full backend features)
+- Razorpay Test Key ID & Secret
 
 ### 2. Frontend Setup
 ```bash
@@ -35,7 +37,8 @@ Access at `http://localhost:5173`
 
 ### 3. Backend Setup
 1. Place your `serviceAccountKey.json` in `backend/src/main/resources/`.
-2. Run the application:
+2. Configure Razorpay keys in `application.properties` or Environment Variables.
+3. Run the application:
 ```bash
 cd backend
 mvn spring-boot:run
@@ -47,6 +50,8 @@ Access API at `http://localhost:8080/api/buses`
 - `GET /api/buses?from={city}&to={city}&date={date}` - Search buses
 - `GET /api/buses/{id}` - Get bus details
 - `POST /api/bookings` - Create a booking
+- `POST /api/payments/create-order` - Create Razorpay Order
+- `POST /api/payments/verify` - Verify Payment Signature
 
 ## 🎨 Theme Details
 - Background: `#000000`
